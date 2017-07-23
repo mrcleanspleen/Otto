@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"math/rand"
+	"net/http"
+	"net/url"
 	"os"
 	"os/exec"
 	"strconv"
@@ -13,6 +15,48 @@ import (
 )
 
 //--------------FUNCTIONS----------------------//
+
+func get_json(url string, target interface{}) error {
+	// Gets JSON data from a Web API and puts it into a struct
+	var myClient = &http.Client{Timeout: 10 * time.Second}
+	r, err := myClient.Get(url)
+	if err != nil {
+		return err
+	}
+	defer r.Body.Close()
+	return json.NewDecoder(r.Body).Decode(target)
+}
+
+func Weather(message, from string) string {
+	units := "imperial"
+	loct := url.QueryEscape(message)
+	url := fmt.Sprintf("http://api.openweathermap.org/data/2.5/weather?q=", loct, "&appid=6a4cbda1e239084151dea640a95d2a0c&units=", units)
+	type Coord struct {
+		Lon float64 `json:"lon"`
+		Lat float64 `json:"lat"`
+	}
+	type Data struct {
+		Name    string             `json:"name"`
+		Id      int                `json:"id"`
+		Main    map[string]float64 `json:"main"`
+		Sys     map[string]float64 `json:"sys"`
+		Coord   map[string]float64 `json:"coord"`
+		Weather map[string]float64 `json:"weather"`
+	}
+	data2 := Data{}
+	get_json(url, &data2)
+	temp := (data2.Main["temp"] * 1.8) - 459.67
+	weather := fmt.Sprintf("In", data2.Name, ", the temperature is", temp, "F", ", with a humidity of", data2.Main["humidity"], "%.")
+	// Gets JSON data from a Web API and puts it into a struct
+	var myClient = &http.Client{Timeout: 10 * time.Second}
+	r, err := myClient.Get(url)
+	if err != nil {
+		return err
+	}
+	defer r.Body.Close()
+	return json.NewDecoder(r.Body).Decode(target)
+}
+
 func Date(message, from string) string {
 	t := time.Now()
 	format := fmt.Sprintf("Today is %s, %s %d, %d", t.Weekday(), t.Month(), t.Day(), t.Year())
