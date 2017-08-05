@@ -23,13 +23,15 @@ func ToD(message, from string) string {
 		"Dance with no music for 1 minute.",
 		"Break two eggs on your head.",
 		"Do your best impression of a baby being born.",
-		"Put 4 ice cubes down your pants."}
+		"Put 4 ice cubes down your pants.",
+	}
 	truths := []string{
 		"What are you most self-conscious about?",
 		"What is your deepest darkest fear?",
 		"What is the scariest dream you have ever had?",
 		"What is the stupidest thing you have ever done?",
-		"What is the airspeed velocity of an unladen swallow?"}
+		"What is the airspeed velocity of an unladen swallow?",
+	}
 	if message == "truth" {
 		rand.Seed(time.Now().Unix())
 		n := rand.Int() % len(test)
