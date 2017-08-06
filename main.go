@@ -16,33 +16,6 @@ import (
 
 //--------------FUNCTIONS----------------------//
 
-func ToD(message, from string) string {
-	//Chooses a random truth or dare
-	dares := []string{
-		"Lick the floor.",
-		"Dance with no music for 1 minute.",
-		"Break two eggs on your head.",
-		"Do your best impression of a baby being born.",
-		"Put 4 ice cubes down your pants.",
-	}
-	truths := []string{
-		"What are you most self-conscious about?",
-		"What is your deepest darkest fear?",
-		"What is the scariest dream you have ever had?",
-		"What is the stupidest thing you have ever done?",
-		"What is the airspeed velocity of an unladen swallow?",
-	}
-	if message == "truth" {
-		rand.Seed(time.Now().Unix())
-		n := rand.Int() % len(test)
-		tod := fmt.Sprintln(truths[n])
-	}
-	if message == "dare" {
-		rand.Seed(time.Now().Unix())
-		n := rand.Int() % len(test)
-		tod := fmt.Sprintf(dares[n])
-	}
-}
 func get_json(url string, target interface{}) error {
 	// Gets JSON data from a Web API and puts it into a struct
 	var myClient = &http.Client{Timeout: 10 * time.Second}
